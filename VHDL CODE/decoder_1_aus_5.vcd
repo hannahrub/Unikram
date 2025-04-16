@@ -1,0 +1,66 @@
+$date
+  Thu Apr 10 15:05:33 2025
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 3 ! a[2:0] $end
+$var reg 1 " r_0 $end
+$var reg 1 # r_1 $end
+$var reg 1 $ r_2 $end
+$var reg 1 % r_3 $end
+$var reg 1 & r_4 $end
+$scope module dc $end
+$var reg 3 ' i[2:0] $end
+$var reg 1 ( o_0 $end
+$var reg 1 ) o_1 $end
+$var reg 1 * o_2 $end
+$var reg 1 + o_3 $end
+$var reg 1 , o_4 $end
+$upscope $end
+$enddefinitions $end
+#0
+b000 !
+1"
+0#
+0$
+0%
+0&
+b000 '
+1(
+0)
+0*
+0+
+0,
+#1000000
+b001 !
+0"
+1#
+b001 '
+0(
+1)
+#2000000
+b010 !
+0#
+1$
+b010 '
+0)
+1*
+#3000000
+b011 !
+0$
+1%
+b011 '
+0*
+1+
+#4000000
+b100 !
+0%
+1&
+b100 '
+0+
+1,
+#5000000
