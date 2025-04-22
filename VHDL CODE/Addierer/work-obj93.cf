@@ -1,0 +1,13 @@
+v 4
+file . "n_bit_addierer_tb.vhdl" "4094e3fc98569f2aefa54b3a1017cef0dd791f3c" "20250422152650.730":
+  entity adder_nbit_tb at 1( 0) + 0 on 17;
+  architecture behavioral of adder_nbit_tb at 7( 94) + 0 on 18;
+file . "volladdierer.vhdl" "b2ef6f4933c119cf852574c8545292473b00f91a" "20250422152239.041":
+  entity full_adder at 1( 0) + 0 on 13;
+  architecture data of full_adder at 17( 409) + 0 on 14;
+file . "halbaddierer.vhdl" "be187783e7a26be6a6f762faa9c21546ae813500" "20250422152009.422":
+  entity half_adder at 1( 0) + 0 on 11;
+  architecture data of half_adder at 13( 316) + 0 on 12;
+file . "n_bit_addierer.vhdl" "748c89309b396daf2b4c16eb549ea6c368a6dc1c" "20250422152318.444":
+  entity adder_nbit at 1( 0) + 0 on 15;
+  architecture structural of adder_nbit at 13( 286) + 0 on 16;

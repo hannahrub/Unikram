@@ -1,0 +1,33 @@
+$date
+  Mon Apr 21 14:26:47 2025
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 4 ! input_tb[3:0] $end
+$var reg 4 " outdownto_tb[3:0] $end
+$var reg 4 # outto_tb[0:3] $end
+$scope module to_dwonto $end
+$var reg 4 $ input[3:0] $end
+$var reg 4 % outto[0:3] $end
+$var reg 4 & outdownto[3:0] $end
+$upscope $end
+$enddefinitions $end
+#0
+bXXXX !
+bXXXX "
+bXXXX #
+bXXXX $
+bXXXX %
+bXXXX &
+#1000000
+b0001 !
+b0001 "
+b0001 #
+b0001 $
+b0001 %
+b0001 &
+#2000000

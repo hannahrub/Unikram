@@ -1,0 +1,34 @@
+$date
+  Fri Apr 18 09:29:49 2025
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 4 ! a_tb[3:0] $end
+$var reg 4 " b_tb[3:0] $end
+$var reg 4 # diff_tb[3:0] $end
+$var reg 1 $ borrow_out_tb $end
+$scope module uut $end
+$upscope $end
+$enddefinitions $end
+#0
+b0000 !
+b0000 "
+bUUUU #
+U$
+#1000000
+b0001 !
+b0001 "
+#2000000
+b0010 !
+b0010 "
+#3000000
+b0100 !
+b0100 "
+#4000000
+b1000 !
+b1000 "
+#5000000

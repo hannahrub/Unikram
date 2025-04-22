@@ -1,0 +1,58 @@
+$date
+  Fri Apr 18 08:00:32 2025
+$end
+$version
+  GHDL v0
+$end
+$timescale
+  1 fs
+$end
+$var reg 1 ! a_tb $end
+$var reg 1 " b_tb $end
+$var reg 1 # diff_tb $end
+$var reg 1 $ borr_tb $end
+$scope module half_subtractor $end
+$var reg 1 % a $end
+$var reg 1 & b $end
+$var reg 1 ' diff $end
+$var reg 1 ( borrow $end
+$upscope $end
+$enddefinitions $end
+#0
+X!
+X"
+X#
+X$
+X%
+X&
+X'
+X(
+#1000000
+0!
+0"
+0#
+0$
+0%
+0&
+0'
+0(
+#2000000
+1"
+1#
+1$
+1&
+1'
+1(
+#3000000
+1!
+0"
+0$
+1%
+0&
+0(
+#4000000
+1"
+0#
+1&
+0'
+#5000000
