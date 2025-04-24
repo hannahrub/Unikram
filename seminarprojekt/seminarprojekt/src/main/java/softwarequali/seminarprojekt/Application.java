@@ -15,7 +15,10 @@ import org.springframework.messaging.Message;
 public class Application {
 
     @Autowired
-    private DataRepository repository;
+    private S7_1500_Repository s7_1500_repository;
+
+    @Autowired
+    private Wago750_Repository wago750_repository;
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(Application.class)
@@ -23,17 +26,29 @@ public class Application {
                 .run(args);
     }
 
-    public String saveData(Message m){
-        repository.save(new Data((String) m.getPayload()));
 
-        // fetch all data
-        System.out.println("Data found with findAll():");
-        System.out.println("-------------------------------");
-        for (Data d : repository.findAll()) {
-            System.out.println(d);
+    // todo: ocj brauch beide methoden nochmal für das andere gerät
+    //  und die verschiedenen topics müssen unterschieden werden
+    // und ich brauch dafür nen eigenen datentyp und repository etc. 
+
+    public void saveData(Message m){
+
+        System.out.println("topic: "+ (String) m.getHeaders().get("mqtt_receivedTopic")+ " payload: "+ m.getPayload());
+
+        String topic = (String) m.getHeaders().get("mqtt_receivedTopic");
+        switch(topic) {
+            case "Wago750/Status":
+                wago750_repository.save(new Wago750((String) m.getPayload(), m.getHeaders()));
+                break;
+            case "S7_1500/Temperatur/Ist", "S7_1500/Temperatur/Differenz", "S7_1500/Temperatur/Soll":
+                s7_1500_repository.save(new S7_1500((String) m.getPayload(), m.getHeaders()));
+                break;
+            case "Random/Integer":
+                // code block
+                break;
+            case null, default:
+                break;
         }
-        System.out.println();
-        return m.getPayload().toString();
     }
 
     @Bean
