@@ -34,3 +34,5 @@ public class Customer {
     }
 
 }
+
+// todo: remove, this is an example class for database operations
