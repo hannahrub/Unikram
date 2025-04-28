@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dies ist ein titel yoyo</title>
+
+    <script type="text/javascript">
+        function drawShape(){
+
+           // Get the canvas element using the DOM
+           var canvas = document.getElementById('mycanvas');
+
+           // Make sure we don't execute when canvas isn't supported
+           if (canvas.getContext){
+
+              // use getContext to use the canvas for drawing
+              var ctx = canvas.getContext('2d');
+
+              // Draw shapes
+              ctx.fillRect(25,25,100,100);
+              ctx.clearRect(45,45,60,60);
+              ctx.strokeRect(50,50,50,50);
+
+              // draw smiley
+              // Draw shapes
+            ctx.beginPath();
+            ctx.arc(75,75,50,0,Math.PI*2,true);  // Outer circle
+            ctx.moveTo(110,75);
+            ctx.arc(75,75,35,0,Math.PI,false);   // Mouth
+            ctx.moveTo(65,65);
+            ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
+            ctx.moveTo(95,65);
+            ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
+            ctx.stroke();
+           } else {
+              alert('You need Safari or Firefox 1.5+ to see this demo.');
+           }
+        }
+    </script>
+</head>
+<body id="test" onload="drawShape();">
+<canvas id="mycanvas"></canvas>>
+    <div style="background-color: #3498db">
+    <h1 style="background-color: Fuchsia;">hallo überschrift</h1>
+    <p>hallo paragraf<p>
+    <table border="1">
+        <tr>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Price</th>
+        </tr>
+        <tr>
+            <td>Laptop</td>
+            <td>Electronics</td>
+            <td>$800</td>
+        </tr>
+        <tr>
+            <td>Bookshelf</td>
+            <td>Furniture</td>
+            <td>$150</td>
+        </tr>
+        <tr>
+            <td>Coffee Maker</td>
+            <td>Appliances</td>
+            <td>$50</td>
+        </tr>
+    </table>
+    </div>
+    <div style="background-color: Red">
+    <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>Java</li>
+        <li>JavaFX</li>
+    </ul>
+    <ol>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>Java</li>
+        <li>JavaFX</li>
+    </ol>
+    <form> <!--user input elemente-->
+        <label><strong>Gender:</strong></label>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label>
+    </form>
+    </div>
+
+
+    <h2> hier beginnt der für die aufgabe relevante Teil</h2>
+    <h1>Spring Boot Web Thymeleaf Example</h1>
+    <h4>
+        dies ist ein wert den ich übergebe: ${wert}, sollte 215 sein.
+        übergeben: ${auslesen}
+    </h4>
+<h2>
+    <span th:text="'Hello, ' + ${wert}"></span>
+</h2>
+<h2>
+    <span th:text="'Hello, ' + ${auslesen}"></span>
+</h2>
+<h2>
+    <span th:text="'payload übergeben, ' + ${payload}"></span>
+</h2>
+<h2>
+    <span th:text="'object übergeben, ' + ${object}"></span>
+</h2>
+
+
+
+</body>
+</html>
+
+<!-- dies ist ein kommentar hallo
+
+    <h1> to <h6> − These are heading tags and used to write headings for the webpage. Where, <h1> is the top-level heading and <h6> is the bottom-level (lowest) heading.
+    <p> − The <p> tag displays text as a paragraph on the webpage.
+    <br> or <br /> − The <br> tag stands for "break", and it inserts a line break on the webpage.
+    <div> − The <div> tag stands for "division", it defines a division or section on the webpage. You can place any number of elements to group them in a section.
+    <ul> and <ol> − The <ul> and <ol> tags insert list items on the webpage, <ol> tag defines ordered listing, whereas <ul> tag defines unordered listing.
+    <li> einzelne elemente in <ul/ol> umgebung werden mit <li> getagged
+    <img> − The <img> tag is used to insert an image in the webpage.
+    <a> − The <a> tag stands for "anchor", and it is used to place a link in the webpage.
+    <pre> − The <pre> tag is used to preserve formatting.
+    <center> zentrieren
+    <hr> mahlt horizontale linie
+    <pre> formatierung beibehalten
+-->.

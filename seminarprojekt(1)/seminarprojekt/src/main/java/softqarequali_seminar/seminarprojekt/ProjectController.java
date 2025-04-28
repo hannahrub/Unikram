@@ -9,7 +9,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @RestController
-public class Controller {
+public class ProjectController {
 
     @Autowired
     Wago750_Repository wago750_repository;
@@ -40,6 +40,8 @@ public class Controller {
         return String.format("Current time im neuen Projekt: %s", myObj);
     }
 
+    // -----------------actual get routen die ich fürs seminar brauche ab hier:-----------------------------
+    // todo: die annotation wieder zu restcontroller ändern und n eigenes @controller file für die html sachen machen
     @GetMapping("/Wago750")
     public Wago750 wago(){
        return  wago750_repository.findTopByOrderByTimestampDesc();
