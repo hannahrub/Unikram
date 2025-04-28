@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 //todo:
-// 1. generic webservice der hallo sagr --> läuft :)
-// 2. MQTT zum laufen bringen --> läuft :)
-// 3. nachrichten in datenbank speichern --> läuft :)
-// 4. webkram mit datenbnak
+// wago750 neusten eintrag in get route anzeigen testen
+// für S7_1500 die 3 verschiedenen queries schreiben die das reweilige aktuellste leifern
+// dann einen entsprechenden get-pfad der die in eine antwort als array kombiniert i guess
+
 
 @SpringBootApplication
 public class SeminarprojektApplication {

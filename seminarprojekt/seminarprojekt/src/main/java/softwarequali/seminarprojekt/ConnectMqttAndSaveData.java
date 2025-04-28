@@ -37,7 +37,7 @@ public class ConnectMqttAndSaveData {
                 wago750_repository.save(new Wago750((String) m.getPayload(), m.getHeaders()));
                 break;
             case "S7_1500/Temperatur/Ist", "S7_1500/Temperatur/Differenz", "S7_1500/Temperatur/Soll":
-                s7_1500_repository.save(new S7_1500((String) m.getPayload(), m.getHeaders()));
+                s7_1500_repository.save(new S7_1500_Differenz((String) m.getPayload(), m.getHeaders()));
                 break;
             case "Random/Integer":
                 // code block

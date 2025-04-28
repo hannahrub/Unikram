@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 
 import java.util.Map;
 
-public class S7_1500 {
+public class S7_1500_Differenz {
     @Id
     public String id;
 
@@ -13,9 +13,9 @@ public class S7_1500 {
     public Long timestamp;
 
 
-    public S7_1500() {}
+    public S7_1500_Differenz() {}
 
-    public S7_1500(String payload, Map<String, Object> headers, Long timestamp) {
+    public S7_1500_Differenz(String payload, Map<String, Object> headers, Long timestamp) {
 
         this.payload = payload;
         this.headers = headers;

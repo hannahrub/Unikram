@@ -9,8 +9,6 @@ import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannel
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-
 @Component
 public class MqttConnection {
 
@@ -21,7 +19,11 @@ public class MqttConnection {
     private String topic = "#";
 
     @Autowired
-    S7_1500_Repository s7_1500_repository;
+    S7_1500_Differenz_Repository s7_1500_Differenz_repository;
+    @Autowired
+    S7_1500_Ist_Repository s7_1500_ist_repository;
+    @Autowired
+    S7_1500_Soll_Repository s7_1500_soll_repository;
 
     @Autowired
     Wago750_Repository wago750_repository;
@@ -43,8 +45,14 @@ public class MqttConnection {
             case "Wago750/Status":
                 wago750_repository.save(new Wago750((String) m.getPayload(), m.getHeaders(), timestamp_from_header));
                 break;
-            case "S7_1500/Temperatur/Ist", "S7_1500/Temperatur/Differenz", "S7_1500/Temperatur/Soll":
-                s7_1500_repository.save(new S7_1500((String) m.getPayload(), m.getHeaders(), timestamp_from_header));
+            case "S7_1500/Temperatur/Ist":
+                s7_1500_ist_repository.save(new S7_1500_Ist((String) m.getPayload(), m.getHeaders(), timestamp_from_header));
+                break;
+            case"S7_1500/Temperatur/Differenz":
+                s7_1500_Differenz_repository.save(new S7_1500_Differenz((String) m.getPayload(), m.getHeaders(), timestamp_from_header));
+                break;
+            case "S7_1500/Temperatur/Soll":
+                s7_1500_soll_repository.save(new S7_1500_Soll((String) m.getPayload(), m.getHeaders(), timestamp_from_header));
                 break;
             case "Random/Integer":
                 // code block

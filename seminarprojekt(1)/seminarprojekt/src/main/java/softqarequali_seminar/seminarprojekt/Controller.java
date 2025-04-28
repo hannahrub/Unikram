@@ -6,12 +6,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @RestController
 public class Controller {
 
     @Autowired
     Wago750_Repository wago750_repository;
+    @Autowired
+    S7_1500_Ist_Repository s7_1500_ist_repository;
+    @Autowired
+    S7_1500_Soll_Repository s7_1500_soll_repository;
+    @Autowired
+    S7_1500_Differenz_Repository s7_1500_differenz_repository;
+
+
+
+
     /*Hello() method
      * takes a string parameter called name
      * combines this parameter name with the world hello
@@ -32,5 +43,35 @@ public class Controller {
     @GetMapping("/Wago750")
     public Wago750 wago(){
        return  wago750_repository.findTopByOrderByTimestampDesc();
+    }
+
+    @GetMapping("/S7_1500/ist/latest")
+    public S7_1500_Ist ist_latest(){
+        return  s7_1500_ist_repository.findTopByOrderByTimestampDesc();
+    }
+
+    @GetMapping("/S7_1500/soll/latest")
+    public S7_1500_Soll soll_latest(){
+        return  s7_1500_soll_repository.findTopByOrderByTimestampDesc();
+    }
+
+    @GetMapping("/S7_1500/differenz/latest")
+    public S7_1500_Differenz differenz_latest(){
+        return  s7_1500_differenz_repository.findTopByOrderByTimestampDesc();
+    }
+
+    @GetMapping("/S7_1500/ist/all")
+    public List<S7_1500_Ist> ist_all(){
+        return  s7_1500_ist_repository.findAll();
+    }
+
+    @GetMapping("/S7_1500/soll/all")
+    public List<S7_1500_Soll> soll_all(){
+        return  s7_1500_soll_repository.findAll();
+    }
+
+    @GetMapping("/S7_1500/differenz/all")
+    public List<S7_1500_Differenz> differenz_all(){
+        return  s7_1500_differenz_repository.findAll();
     }
 }
