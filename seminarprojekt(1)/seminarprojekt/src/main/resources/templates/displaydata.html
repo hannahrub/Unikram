@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="refresh" content="1">
+    <title>Dies ist ein titel yoyo</title>
+
+</head>
+<body id="test" onload="drawShape();">
+<canvas id="myCanvas" width="1000" height="200" style="border:1px solid">
+
+</canvas>
+<br>
+
+<script>
+    const c = document.getElementById("myCanvas");  // find canvas and init
+    const ctx = c.getContext("2d");
+    ctx.fillStyle = "#92B901";
+
+    ctx.beginPath();
+    ctx.arc(40,40,30,0,Math.PI*2,true); //x0
+    ctx.moveTo(130,40); // move immer zum rechten rand des neuen kreises
+    ctx.arc(100,40,30,0,Math.PI*2,true); // x1
+    ctx.moveTo(190,40);
+    ctx.arc(160,40,30,0,Math.PI*2,true); // x2
+    ctx.moveTo(250,40);         // x3
+    ctx.arc(220,40,30,0,Math.PI*2,true); // x4
+    ctx.moveTo(310,40);
+    ctx.arc(280,40,30,0,Math.PI*2,true); //x5
+    ctx.moveTo(370,40);
+    ctx.arc(340,40,30,0,Math.PI*2,true); // x6
+    ctx.moveTo(430,40);
+    ctx.arc(400,40,30,0,Math.PI*2,true); //x7
+    ctx.stroke();
+
+    // untere reihe
+    ctx.beginPath();
+    ctx.arc(40,120,30,0,Math.PI*2,true); //x0
+    ctx.moveTo(130,120); // move immer zum rechten rand des neuen kreises
+    ctx.arc(100,120,30,0,Math.PI*2,true); // x1
+    ctx.moveTo(190,120);
+    ctx.arc(160,120,30,0,Math.PI*2,true); // x2
+    ctx.moveTo(250,120);         // x3
+    ctx.arc(220,120,30,0,Math.PI*2,true); // x4
+    ctx.moveTo(310,120);
+    ctx.arc(280,120,30,0,Math.PI*2,true); //x5
+    ctx.moveTo(370,120);
+    ctx.arc(340,120,30,0,Math.PI*2,true); // x6
+    ctx.moveTo(430,120);
+    ctx.arc(400,120,30,0,Math.PI*2,true); //x7
+    ctx.stroke();
+</script>
+<br>
+<h2>
+    <span th:text="'Wago750: ' + ${wago750}"></span>
+    <br>
+    <span th:text="'S7_1500/Ist: ' + ${s7_ist}"></span>
+    <br>
+    <span th:text="'S7_1500/Soll: ' + ${s7_soll}"></span>
+    <br>
+    <span th:text="'S7_1500/Differenz: ' + ${s7_diff}"></span>
+</h2>
+
+</body>
+</html>
+
+<!-- dies ist ein kommentar hallo
+x 	Required. The x-coordinate of the arc's center
+y 	Required. The y-coordinate of the arc's center
+radius 	Required. The radius of the arc
+startAngle 	Required. The angle where the arc starts in radians
+endAngle 	Required. The angle where the arc ends in radians
+counterclockwise 	Optional. A boolean value. If set to true, it draws the arc counter-clockwise between the start and end angles. The default is false (clockwise)
+    <h1> to <h6> − These are heading tags and used to write headings for the webpage. Where, <h1> is the top-level heading and <h6> is the bottom-level (lowest) heading.
+    <p> − The <p> tag displays text as a paragraph on the webpage.
+    <br> or <br /> − The <br> tag stands for "break", and it inserts a line break on the webpage.
+    <div> − The <div> tag stands for "division", it defines a division or section on the webpage. You can place any number of elements to group them in a section.
+    <ul> and <ol> − The <ul> and <ol> tags insert list items on the webpage, <ol> tag defines ordered listing, whereas <ul> tag defines unordered listing.
+    <li> einzelne elemente in <ul/ol> umgebung werden mit <li> getagged
+    <img> − The <img> tag is used to insert an image in the webpage.
+    <a> − The <a> tag stands for "anchor", and it is used to place a link in the webpage.
+    <pre> − The <pre> tag is used to preserve formatting.
+    <center> zentrieren
+    <hr> mahlt horizontale linie
+    <pre> formatierung beibehalten
+-->.

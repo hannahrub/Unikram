@@ -19,15 +19,28 @@ public class HTMLController {
     @Autowired
     S7_1500_Differenz_Repository s7_1500_differenz_repository;
 
+    @Autowired
+    ProjectController projectController;
 
+// todo: wie man die seite automatisch refreshed https://www.geeksforgeeks.org/how-to-automatic-refresh-a-web-page-in-fixed-time/
+    // todo: https://www.mongodb.com/docs/manual/changeStreams/
     // !!!!! html templates gehören in src/main/resources/templates/ !!!!!
 
     @GetMapping("/testThymeleaf")
-    public String viewHomePage(Model model) {
+    public String testPage(Model model) {
         model.addAttribute("wert", 215);
         model.addAttribute("auslesen", "hallolo ich wurde ausgeleen");
         model.addAttribute("payload", s7_1500_ist_repository.findTopByOrderByTimestampDesc().payload);
         model.addAttribute("object", s7_1500_ist_repository.findTopByOrderByTimestampDesc());
         return "index";
+    }
+
+    @GetMapping("/homepage")
+    public String viewHomePage(Model model) {
+        model.addAttribute("wago750", projectController.wago().payload);
+        model.addAttribute("s7_ist", projectController.ist_latest().payload);
+        model.addAttribute("s7_soll", projectController.soll_latest().payload);
+        model.addAttribute("s7_diff", projectController.differenz_latest().payload);
+        return "displaydata";
     }
 }
