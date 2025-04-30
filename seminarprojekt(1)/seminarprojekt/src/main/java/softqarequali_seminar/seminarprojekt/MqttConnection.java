@@ -36,9 +36,7 @@ public class MqttConnection {
     public void saveData(Message m) {
 
         Long timestamp_from_header = m.getHeaders().getTimestamp();
-        System.out.println("timestamp: " + timestamp_from_header);
-        System.out.println("type of payload: " + m.getPayload().getClass());
-        System.out.println("topic: " + (String) m.getHeaders().get("mqtt_receivedTopic")+ " payload: " + m.getPayload());
+        System.out.println("topic: " + (String) m.getHeaders().get("mqtt_receivedTopic")+ " --payload: " + m.getPayload() + " --timestamp: " + timestamp_from_header);
 
         String topic = (String) m.getHeaders().get("mqtt_receivedTopic");
         switch(topic) {
