@@ -72,6 +72,7 @@ public class HTMLController {
         model.addAttribute("wahl", new FormEval());
 
         model.addAttribute("wago750", projectController.wago().payload);
+        model.addAttribute("wago_timestamp", projectController.wago().timestamp);
         model.addAttribute("boolarray", projectController.wago().binaryArray);
         model.addAttribute("s7_ist", projectController.ist_latest().payload);
         model.addAttribute("s7_soll", projectController.soll_latest().payload);

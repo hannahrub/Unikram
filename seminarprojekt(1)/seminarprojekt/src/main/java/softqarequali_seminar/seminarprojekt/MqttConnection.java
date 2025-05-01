@@ -85,7 +85,7 @@ public class MqttConnection {
         // mit mqtt broker verbinden und Nachrichten annehmen
         return IntegrationFlow.from(
                         new MqttPahoMessageDrivenChannelAdapter(
-                                url, clientId, factory, topic))
+                                url, "mqttx_887f4e59", factory, topic))
                 .handle(this::saveData)
                 .get();
     }

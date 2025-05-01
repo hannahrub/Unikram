@@ -61,12 +61,16 @@
         <span th:text="${x_15} + ' ]'"></span>
         <br>
         <span th:text="'Wago 750 letzter Wert (int Repräsentation): ' + ${wago750}"></span>
+        <br>
+        <span th:text="' mit timestamp: ' + ${wago_timestamp}"></span>
     </p>
 
 
 
     <form action="#" th:action="@{/homepage}" th:object="${wahl}" method="post">
-        <p>Select modus:</p>
+        <p>Modus auswählen:</p>
+        <input type="radio" id="modus_0" name="modus 0" value="0" th:field="*{data}">
+        <label for="modus_0">Modus 0</label><br>
         <input type="radio" id="modus_1" name="modus 1" value="1" th:field="*{data}">
         <label for="modus_1">Modus 1</label><br>
         <input type="radio" id="modus_2" name="modus 2" value="2" th:field="*{data}">
@@ -78,7 +82,7 @@
         <input type="submit" value="Gewählten modus ausführen">
     </form>
 
-    <div th:text="${@dostuff.erstellesatz()}">...</div>
+    <!--<div th:text="${@dostuff.erstellesatz()}">...</div> -->
 
 
     <hr>
