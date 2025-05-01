@@ -63,6 +63,24 @@
         <span th:text="'Wago 750 letzter Wert (int Repräsentation): ' + ${wago750}"></span>
     </p>
 
+
+
+    <form action="#" th:action="@{/homepage}" th:object="${wahl}" method="post">
+        <p>Select modus:</p>
+        <input type="radio" id="modus_1" name="modus 1" value="1" th:field="*{data}">
+        <label for="modus_1">Modus 1</label><br>
+        <input type="radio" id="modus_2" name="modus 2" value="2" th:field="*{data}">
+        <label for="modus_2">Modus 2</label><br>
+        <input type="radio" id="modus_3" name="modus 3" value="3" th:field="*{data}">
+        <label for="modus_3">Modus 3</label>
+
+        <br>
+        <input type="submit" value="Gewählten modus ausführen">
+    </form>
+
+    <div th:text="${@dostuff.erstellesatz()}">...</div>
+
+
     <hr>
     <br>
     <h5>

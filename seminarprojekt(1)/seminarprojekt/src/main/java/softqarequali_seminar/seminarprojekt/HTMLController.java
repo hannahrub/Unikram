@@ -1,9 +1,15 @@
 package softqarequali_seminar.seminarprojekt;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.text.Normalizer;
 
 @Controller
 public class HTMLController {
@@ -19,9 +25,34 @@ public class HTMLController {
     @Autowired
     ProjectController projectController;
 
-// todo: wie man die seite automatisch refreshed https://www.geeksforgeeks.org/how-to-automatic-refresh-a-web-page-in-fixed-time/
-    // todo: https://www.mongodb.com/docs/manual/changeStreams/
+    @Autowired
+    MqttConnection.MyGateway gateway;
+
+
+
+    // die annotationen mappen spezifische http requests auf bestimmte controller metthoden
+    // beide methoden bedienen den /greeting endpunkt, aber eins die post und eins die get requests
+    // mit requestmapping würden alle operationen get, post etc auf die eine funktion gehen
+
+
+    @PostMapping("/homepage")
+    public String buttonSubmit(@ModelAttribute FormEval wahl, Model model){
+        model.addAttribute("wahl", wahl);
+        System.out.println("hallo aus dem post von homepage....... " + wahl.getData()) ;
+        gateway.sendToMqtt(wahl.getData());
+        return "displaydata";
+    }
+
+
     // !!!!! html templates gehören in src/main/resources/templates/ !!!!!
+
+    @RequestMapping(value="/do-stuff")
+    public String buttonPressed() {
+        System.out.println("button was pressed, yayyyyyy");
+        return "displaydata";
+    }
+
+
 
     @GetMapping("/testThymeleaf")
     public String testPage(Model model) {
@@ -37,6 +68,9 @@ public class HTMLController {
     public String viewHomePage(Model model) {
         int[] myarr = new int[28];
         int[] bin =  projectController.wago().binaryArray;
+
+        model.addAttribute("wahl", new FormEval());
+
         model.addAttribute("wago750", projectController.wago().payload);
         model.addAttribute("boolarray", projectController.wago().binaryArray);
         model.addAttribute("s7_ist", projectController.ist_latest().payload);
