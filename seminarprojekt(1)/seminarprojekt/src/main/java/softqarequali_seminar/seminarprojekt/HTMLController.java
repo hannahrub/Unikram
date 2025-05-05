@@ -1,27 +1,17 @@
 package softqarequali_seminar.seminarprojekt;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.text.Normalizer;
+
+
 
 @Controller
 public class HTMLController {
-    @Autowired
-    Wago750_Repository wago750_repository;
-    @Autowired
-    S7_1500_Ist_Repository s7_1500_ist_repository;
-    @Autowired
-    S7_1500_Soll_Repository s7_1500_soll_repository;
-    @Autowired
-    S7_1500_Differenz_Repository s7_1500_differenz_repository;
-
     @Autowired
     ProjectController projectController;
 
@@ -30,38 +20,17 @@ public class HTMLController {
 
 
 
-    // die annotationen mappen spezifische http requests auf bestimmte controller metthoden
-    // beide methoden bedienen den /greeting endpunkt, aber eins die post und eins die get requests
-    // mit requestmapping würden alle operationen get, post etc auf die eine funktion gehen
+    // die annotationen mappen spezifische http requests auf bestimmte controller methoden
+    // !!!!! html templates gehören in src/main/resources/templates/ !!!!!
 
 
+    /*Das hier emfängt das form was durch modus wahl abgesender wird*/
     @PostMapping("/homepage")
     public String buttonSubmit(@ModelAttribute FormEval wahl, Model model){
         model.addAttribute("wahl", wahl);
         System.out.println("hallo aus dem post von homepage....... " + wahl.getData()) ;
         gateway.sendToMqtt(wahl.getData());
         return "displaydata";
-    }
-
-
-    // !!!!! html templates gehören in src/main/resources/templates/ !!!!!
-
-    @RequestMapping(value="/do-stuff")
-    public String buttonPressed() {
-        System.out.println("button was pressed, yayyyyyy");
-        return "displaydata";
-    }
-
-
-
-    @GetMapping("/testThymeleaf")
-    public String testPage(Model model) {
-        model.addAttribute("wert", 215);
-        model.addAttribute("auslesen", "hallolo ich wurde ausgeleen");
-        model.addAttribute("payload", s7_1500_ist_repository.findTopByOrderByTimestampDesc().payload);
-        model.addAttribute("object", s7_1500_ist_repository.findTopByOrderByTimestampDesc());
-
-        return "index";
     }
 
     @GetMapping("/homepage")

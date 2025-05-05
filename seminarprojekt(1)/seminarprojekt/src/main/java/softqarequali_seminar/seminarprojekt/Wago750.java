@@ -11,7 +11,7 @@ public class Wago750 {
     public String payload;
     public Map<String, Object> headers;
     public Long timestamp;
-    public int[] binaryArray; //todo: make actual array?? from int??
+    public int[] binaryArray;
 
 
 

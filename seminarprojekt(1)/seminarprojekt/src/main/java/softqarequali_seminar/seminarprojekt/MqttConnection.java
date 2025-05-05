@@ -15,14 +15,19 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.stereotype.Component;
 
+
+/** Diese Klasse baut die mqtt verbindungen auf und konfiguriert sie
+ * sie nimmt außerdem die nachrichten entgegen und speichert sie in der db*/
+
 @Component
 public class MqttConnection {
 
-    private char[] pw = "018435380".toCharArray();
-    private String username = "hannah.beltz@stud.hs-bochum.de";
-    private String url = "tcp://sr-labor.ddns.net:1883";
-    private String clientId = "mqttx_887f4e58";
-    private String topic = "#";
+    // infos um die verbindung zu konfigurieren
+    private final char[] pw = "018435380".toCharArray();
+    private final String username = "hannah.beltz@stud.hs-bochum.de";
+    private final String url = "tcp://sr-labor.ddns.net:1883";
+    private final String clientId = "mqttx_887f4e58";
+    private final String topic = "#";
 
     @Autowired
     S7_1500_Differenz_Repository s7_1500_Differenz_repository;
@@ -90,18 +95,6 @@ public class MqttConnection {
                 .get();
     }
 
-/*
-    @Bean
-    public IntegrationFlow mqttOutboundFlow() {
-
-        DefaultMqttPahoClientFactory factory = configureConnection();
-
-        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler(url, clientId, factory);
-        messageHandler.setDefaultTopic("Wago750/Control");
-
-        // was returned das?? eine abstrakte lamda funktion
-        return f -> f.handle(messageHandler);
-    } */
 
     @Bean
     @ServiceActivator(inputChannel = "mqttOutboundChannel")
@@ -128,11 +121,3 @@ public class MqttConnection {
 
     }
 }
-
-
-//. An die SPS k¨onnen
-//¨uber MQTT an das Topic: Wago750/Control die Integer-Werte 0, 1, 2 oder 3 gesendet
-//werden. Wenn die SPS einen dieser Control-Befehle erh¨alt, wechselt sie ihren Modus.
-//Beim Control-Befehl 0 geht die SPS in einen Ruhemodus und schickt keine weiteren
-//Daten mehr. Bei den Control-Befehlen 1, 2 oder 3, wechselt die SPS den Beleuchtungs-
-//modus.

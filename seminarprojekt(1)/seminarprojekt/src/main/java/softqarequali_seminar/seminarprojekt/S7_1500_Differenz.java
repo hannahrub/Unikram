@@ -1,9 +1,11 @@
 package softqarequali_seminar.seminarprojekt;
 
 import org.springframework.data.annotation.Id;
-
 import java.util.Map;
 
+
+/**So werden die Differenz daten in einer eigenen Collection gespeichert.
+ * so eine klasse gibt es für jede meiner collections*/
 public class S7_1500_Differenz {
     @Id
     public String id;
