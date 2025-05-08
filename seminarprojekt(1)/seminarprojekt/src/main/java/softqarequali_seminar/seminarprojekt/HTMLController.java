@@ -16,7 +16,7 @@ public class HTMLController {
     ProjectController projectController;
 
     @Autowired
-    MqttConnection.MyGateway gateway;
+    MqttConfig.MyGateway gateway;
 
 
 

@@ -10,7 +10,7 @@
     <h3>Wago 750:</h3>
     <br>
 
-    <canvas id="canvas1" width="1400" height="90" style="border:1px solid">
+    <canvas id="canvas1" width="750" height="200" style="border:1px solid">
     </canvas>
 
     <br>
@@ -28,7 +28,20 @@
         [[${x_8}]], [[${x_9}]], [[${x_10}]], [[${x_11}]], [[${x_12}]], [[${x_13}]], [[${x_14}]], [[${x_15}]]
         ];
 
-        for (let i = 1; i < 17; i++) {
+        for (let i = 9; i < 17; i++) {
+            if (led_status[i-1] == 1){
+                ctx.fillStyle = "coral";
+            }
+            else{
+                ctx.fillStyle = "linen"
+            }
+            ctx.beginPath();
+            ctx.arc(40*2*(i-8),150,30,0,Math.PI*2,true); //x0
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        for (let i = 1; i < 9; i++) {
             if (led_status[i-1] == 1){
                 ctx.fillStyle = "coral";
             }
@@ -42,28 +55,28 @@
         }
     </script>
 
-    <p>
-        <span th:text="'[' + ${x_0}"></span>
-        <span th:text="${x_1}"></span>
-        <span th:text="${x_2}"></span>
-        <span th:text="${x_3}"></span>
-        <span th:text="${x_4}"></span>
-        <span th:text="${x_5}"></span>
-        <span th:text="${x_6}"></span>
-        <span th:text="${x_7}"></span>
-        <span th:text="${x_8}"></span>
-        <span th:text="${x_9}"></span>
-        <span th:text="${x_10}"></span>
-        <span th:text="${x_11}"></span>
-        <span th:text="${x_12}"></span>
-        <span th:text="${x_13}"></span>
-        <span th:text="${x_14}"></span>
-        <span th:text="${x_15} + ' ]'"></span>
-        <br>
-        <span th:text="'Wago 750 letzter Wert (int Repräsentation): ' + ${wago750}"></span>
-        <br>
-        <span th:text="' mit timestamp: ' + ${wago_timestamp}"></span>
-    </p>
+    <!--
+   <p>
+       <span th:text="'[' + ${x_0}"></span>
+       <span th:text="${x_1}"></span>
+       <span th:text="${x_2}"></span>
+       <span th:text="${x_3}"></span>
+       <span th:text="${x_4}"></span>
+       <span th:text="${x_5}"></span>
+       <span th:text="${x_6}"></span>
+       <span th:text="${x_7}"></span>
+       <span th:text="${x_8}"></span>
+       <span th:text="${x_9}"></span>
+       <span th:text="${x_10}"></span>
+       <span th:text="${x_11}"></span>
+       <span th:text="${x_12}"></span>
+       <span th:text="${x_13}"></span>
+       <span th:text="${x_14}"></span>
+       <span th:text="${x_15} + ' ]'"></span>
+       <br>
+      <span th:text="'Wago 750 letzter Wert (int Repräsentation): ' + ${wago750}"></span>
+       <span th:text="' und  timestamp: ' + ${wago_timestamp}"></span>
+    </p> -->
 
 
 
@@ -79,12 +92,10 @@
         <label for="modus_3">Modus 3</label>
 
         <br>
-        <input type="submit" value="Gewählten modus ausführen">
+        <input type="submit" value="Gewählten Modus ausführen">
     </form>
 
-    <!--<div th:text="${@dostuff.erstellesatz()}">...</div> -->
-
-
+    <br>
     <hr>
     <br>
     <h5>

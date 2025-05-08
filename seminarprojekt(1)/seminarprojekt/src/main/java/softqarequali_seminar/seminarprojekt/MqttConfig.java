@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
  * sie nimmt außerdem die nachrichten entgegen und speichert sie in der db*/
 
 @Component
-public class MqttConnection {
+public class MqttConfig {
 
     // infos um die verbindung zu konfigurieren
     private final char[] pw = "018435380".toCharArray();
@@ -30,46 +30,12 @@ public class MqttConnection {
     private final String topic = "#";
 
     @Autowired
-    S7_1500_Differenz_Repository s7_1500_Differenz_repository;
-    @Autowired
-    S7_1500_Ist_Repository s7_1500_ist_repository;
-    @Autowired
-    S7_1500_Soll_Repository s7_1500_soll_repository;
+    SaveDataService service;
 
-    @Autowired
-    Wago750_Repository wago750_repository;
-
-
-    MqttConnection() {
+    MqttConfig() {
 
     }
 
-    public void saveData(Message m) {
-
-        Long timestamp_from_header = m.getHeaders().getTimestamp();
-        System.out.println("topic: " + (String) m.getHeaders().get("mqtt_receivedTopic")+ " --payload: " + m.getPayload() + " --timestamp: " + timestamp_from_header);
-
-        String topic = (String) m.getHeaders().get("mqtt_receivedTopic");
-        switch(topic) {
-            case "Wago750/Status":
-                wago750_repository.save(new Wago750((String) m.getPayload(), m.getHeaders(), timestamp_from_header));
-                break;
-            case "S7_1500/Temperatur/Ist":
-                s7_1500_ist_repository.save(new S7_1500_Ist((String) m.getPayload(), m.getHeaders(), timestamp_from_header));
-                break;
-            case"S7_1500/Temperatur/Differenz":
-                s7_1500_Differenz_repository.save(new S7_1500_Differenz((String) m.getPayload(), m.getHeaders(), timestamp_from_header));
-                break;
-            case "S7_1500/Temperatur/Soll":
-                s7_1500_soll_repository.save(new S7_1500_Soll((String) m.getPayload(), m.getHeaders(), timestamp_from_header));
-                break;
-            case "Random/Integer":
-                // code block
-                break;
-            case null, default:
-                break;
-        }
-    }
 
     public DefaultMqttPahoClientFactory configureConnection(){
         // benutzername und passwort konfigurieren
@@ -91,7 +57,7 @@ public class MqttConnection {
         return IntegrationFlow.from(
                         new MqttPahoMessageDrivenChannelAdapter(
                                 url, "mqttx_887f4e59", factory, topic))
-                .handle(this::saveData)
+                .handle(m -> service.saveData(m))
                 .get();
     }
 
