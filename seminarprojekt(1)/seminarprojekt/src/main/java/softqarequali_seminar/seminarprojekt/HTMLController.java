@@ -1,5 +1,7 @@
 package softqarequali_seminar.seminarprojekt;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +20,7 @@ public class HTMLController {
     @Autowired
     MqttConfig.MyGateway gateway;
 
-
+    Logger logger = LoggerFactory.getLogger(HTMLController.class);
 
     // die annotationen mappen spezifische http requests auf bestimmte controller methoden
     // !!!!! html templates gehören in src/main/resources/templates/ !!!!!
@@ -27,14 +29,20 @@ public class HTMLController {
     /*Das hier emfängt das form was durch modus wahl abgesender wird*/
     @PostMapping("/homepage")
     public String buttonSubmit(@ModelAttribute FormEval wahl, Model model){
+
+        logger.info("POST request from /homepage");
+        logger.info("Sent to mqtt Broker: " + wahl.getData());
+
         model.addAttribute("wahl", wahl);
-        System.out.println("hallo aus dem post von homepage....... " + wahl.getData()) ;
+        System.out.println("knopf gedrückt:....... " + wahl.getData()) ;
         gateway.sendToMqtt(wahl.getData());
         return "displaydata";
     }
 
     @GetMapping("/homepage")
     public String viewHomePage(Model model) {
+        logger.info("GET request to /homepage");
+
         int[] myarr = new int[28];
         int[] bin =  projectController.wago().binaryArray;
 

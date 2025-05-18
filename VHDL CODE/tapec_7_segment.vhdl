@@ -27,6 +27,12 @@ begin
 	lowerbits <= sw(3 downto 0); --unterste 4 bit
 	upperbits <= sw(7 downto 4); --obere 4 bit unsrer 8 bit binärzahl
 	
+	-- layout sehr weirde 7 segment anzeige
+	-- --6--
+	--1	    4
+	-- --0--
+	--2 	5
+	-- --3--
 	
 	with lowerbits select
 	out_0 <= "1000000" when "0000", -- zeichnet 0 auf der anzeige

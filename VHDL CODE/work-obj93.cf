@@ -1,0 +1,4 @@
+v 4
+file . "ampel_tapec.vhdl" "4e5a6bfed7ab94639b3ec6ec64aab9680dc2f725" "20250515155322.740":
+  entity circuit at 1( 0) + 0 on 25;
+  architecture description of circuit at 24( 922) + 0 on 26;
