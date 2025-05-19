@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SeminarprojektApplicationIntegrationTests.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SeminarprojektApplicationUnitTests Coverage Results</a> &gt; <a href="index.source.html" class="el_package">softqarequali_seminar.seminarprojekt</a> &gt; <span class="el_source">SeminarprojektApplicationIntegrationTests.java</span></div><h1>SeminarprojektApplicationIntegrationTests.java</h1><pre class="source lang-java linenums">package softqarequali_seminar.seminarprojekt;
+
+
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.ui.Model;
+
+import java.util.Map;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.integration.json.SimpleJsonSerializer.toJson;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
+<span class="nc" id="L29">public class SeminarprojektApplicationIntegrationTests {</span>
+
+    /*Implementieren Sie jeweils einen Integrationstest, der zusammenh¨angend testet,
+• ob eine empfangene Nachricht in der Datenbank gespeichert wird und ob diese
+¨uber den RESTful Web Service wieder korrekt abrufbar ist. Dazu k¨onnen Sie den
+Empfang der Nachricht simulieren.
+sowie
+• ob ein gesendeter POST-Request (Control-Befehl) an den RESTful Web Service
+das Senden einer Nachricht an die Wago-SPS ausl¨ost.*/
+
+    @Autowired
+    S7_1500_Ist_Repository s7_1500_ist_repository;
+
+    @Autowired
+    SaveDataService saveDataService;
+
+    @Autowired
+    ProjectController projectController;
+
+    @Autowired
+    HTMLController htmlController;
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    MqttConfig.MyGateway gateway;
+
+    @Test
+    void shouldSaveMessageAndRetrieve() {
+
+        //nachrichtenempfang simulieren
+<span class="nc" id="L61">        Message m = Mockito.mock(Message.class);</span>
+<span class="nc" id="L62">        MessageHeaders mh = Mockito.mock(MessageHeaders.class);</span>
+
+<span class="nc" id="L64">        when(m.getHeaders()).thenReturn(mh);</span>
+<span class="nc" id="L65">        when(m.getPayload()).thenReturn(&quot;IT payload&quot;);</span>
+<span class="nc" id="L66">        long newest_ts = s7_1500_ist_repository.findTopByOrderByTimestampDesc().timestamp;</span>
+<span class="nc" id="L67">        when(mh.getTimestamp()).thenReturn(newest_ts + 100); // stelle sicher dass unsere fake nacjricht die neuste ist</span>
+<span class="nc" id="L68">        when(mh.get(&quot;mqtt_receivedTopic&quot;)).thenReturn(&quot;S7_1500/Temperatur/Ist&quot;);</span>
+
+        // Nachricht in Datenbank speichern
+<span class="nc" id="L71">        String[] save_return = saveDataService.saveData(m);</span>
+
+        // Nachricht über Webservice abrufen
+<span class="nc" id="L74">        assertThat(projectController.ist_latest().id).isEqualTo(save_return[1]);</span>
+<span class="nc" id="L75">    }</span>
+
+
+    @Test
+    void shouldSendMqttMessageOnPostRequest() throws Exception {
+
+        // wir erstellen kinda einen mock eines post request
+        // dieser schickt von homepage einen JSON
+        // und der entsprechende JSON soll ein formeval objekt mit entsprechender konfig sein
+<span class="nc" id="L84">        FormEval formEval = new FormEval();</span>
+<span class="nc" id="L85">        formEval.setData(&quot;1&quot;);</span>
+<span class="nc" id="L86">        formEval.setId((long) 1);</span>
+
+<span class="nc" id="L88">        String formevalJson = toJson(formEval);</span>
+
+<span class="nc" id="L90">        MqttConfig.MyGateway gateway1 = Mockito.mock(MqttConfig.MyGateway.class);</span>
+
+<span class="nc" id="L92">        mockMvc.perform(post(&quot;/homepage&quot;)</span>
+<span class="nc" id="L93">                        .contentType(MediaType.APPLICATION_JSON)</span>
+<span class="nc" id="L94">                        .content(formevalJson))</span>
+<span class="nc" id="L95">                .andDo(print())</span>
+<span class="nc" id="L96">                .andExpect(status().isOk())</span>
+<span class="nc" id="L97">                .andExpect(view().name(&quot;displaydata&quot;));</span>
+
+        //MqttConfig.MyGateway gateway1 = Mockito.mock(MqttConfig.MyGateway.class);
+<span class="nc" id="L100">    }</span>
+
+    @Test
+    void shouldGet() throws Exception {
+<span class="nc" id="L104">        mockMvc.perform(get(&quot;/S7_1500/soll/latest&quot;))</span>
+<span class="nc" id="L105">                .andDo(print()).andExpect(status().isOk())</span>
+<span class="nc" id="L106">                .andExpect(content().contentType(&quot;application/json&quot;));</span>
+<span class="nc" id="L107">    }</span>
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

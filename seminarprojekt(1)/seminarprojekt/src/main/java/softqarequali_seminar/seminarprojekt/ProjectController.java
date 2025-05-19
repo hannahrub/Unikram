@@ -21,6 +21,10 @@ public class ProjectController {
     S7_1500_Differenz_Repository s7_1500_differenz_repository;
 
 
+    @GetMapping("/hello")
+        public String hello(){
+            return "Guten Tag";
+    }
 
     @GetMapping("/Wago750")
     public Wago750 wago(){

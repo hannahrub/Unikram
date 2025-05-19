@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MqttConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SeminarprojektApplicationUnitTests Coverage Results</a> &gt; <a href="index.source.html" class="el_package">softqarequali_seminar.seminarprojekt</a> &gt; <span class="el_source">MqttConfig.java</span></div><h1>MqttConfig.java</h1><pre class="source lang-java linenums">package softqarequali_seminar.seminarprojekt;
+
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.integration.annotation.MessagingGateway;
+import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;
+import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
+import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHandler;
+import org.springframework.stereotype.Component;
+
+
+/** Diese Klasse baut die mqtt verbindungen auf und konfiguriert sie
+ * sie nimmt außerdem die nachrichten entgegen und speichert sie in der db*/
+
+@Component
+public class MqttConfig {
+
+    // infos um die verbindung zu konfigurieren
+<span class="fc" id="L26">    private final char[] pw = &quot;018435380&quot;.toCharArray();</span>
+<span class="fc" id="L27">    private final String username = &quot;hannah.beltz@stud.hs-bochum.de&quot;;</span>
+<span class="fc" id="L28">    private final String url = &quot;tcp://sr-labor.ddns.net:1883&quot;;</span>
+<span class="fc" id="L29">    private final String clientId = &quot;mqttx_887f4e58&quot;;</span>
+<span class="fc" id="L30">    private final String topic = &quot;#&quot;;</span>
+
+    @Autowired
+    SaveDataService service;
+
+<span class="fc" id="L35">    MqttConfig() {</span>
+
+<span class="fc" id="L37">    }</span>
+
+
+    public DefaultMqttPahoClientFactory configureConnection(){
+        // benutzername und passwort konfigurieren
+<span class="fc" id="L42">        MqttConnectOptions connectOptions = new MqttConnectOptions();</span>
+<span class="fc" id="L43">        connectOptions.setPassword(pw);</span>
+<span class="fc" id="L44">        connectOptions.setUserName(username);</span>
+<span class="fc" id="L45">        DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();</span>
+<span class="fc" id="L46">        factory.setConnectionOptions(connectOptions);</span>
+
+<span class="fc" id="L48">        return factory;</span>
+    }
+
+    @Bean
+    public IntegrationFlow receiveAndSaveMessagesService() {
+
+<span class="fc" id="L54">        DefaultMqttPahoClientFactory factory = configureConnection();</span>
+
+        // mit mqtt broker verbinden und Nachrichten annehmen
+<span class="fc" id="L57">        return IntegrationFlow.from(</span>
+                        new MqttPahoMessageDrivenChannelAdapter(
+                                url, &quot;mqttx_887f4e59&quot;, factory, topic))
+<span class="fc" id="L60">                .handle(m -&gt; service.saveData(m))</span>
+<span class="fc" id="L61">                .get();</span>
+    }
+
+
+    @Bean
+    @ServiceActivator(inputChannel = &quot;mqttOutboundChannel&quot;)
+    public MessageHandler mqttOutbound() {
+
+<span class="fc" id="L69">        DefaultMqttPahoClientFactory factory = configureConnection();</span>
+
+<span class="fc" id="L71">        MqttPahoMessageHandler messageHandler =</span>
+                new MqttPahoMessageHandler(url, clientId, factory);
+<span class="fc" id="L73">        messageHandler.setAsync(true);</span>
+<span class="fc" id="L74">        messageHandler.setDefaultTopic(&quot;Wago750/Control&quot;);</span>
+<span class="fc" id="L75">        return messageHandler;</span>
+    }
+
+    @Bean
+    public MessageChannel mqttOutboundChannel() {
+<span class="fc" id="L80">        return new DirectChannel();</span>
+    }
+
+    @MessagingGateway(defaultRequestChannel = &quot;mqttOutboundChannel&quot;)
+    public interface MyGateway {
+
+        void sendToMqtt(String data);
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

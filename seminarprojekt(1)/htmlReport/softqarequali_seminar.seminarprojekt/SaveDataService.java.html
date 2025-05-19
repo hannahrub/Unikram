@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SaveDataService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SeminarprojektApplicationUnitTests Coverage Results</a> &gt; <a href="index.source.html" class="el_package">softqarequali_seminar.seminarprojekt</a> &gt; <span class="el_source">SaveDataService.java</span></div><h1>SaveDataService.java</h1><pre class="source lang-java linenums">package softqarequali_seminar.seminarprojekt;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
+import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+
+@Component
+public class SaveDataService {
+
+    @Autowired
+    S7_1500_Differenz_Repository s7_1500_Differenz_repository;
+    @Autowired
+    S7_1500_Ist_Repository s7_1500_ist_repository;
+    @Autowired
+    S7_1500_Soll_Repository s7_1500_soll_repository;
+    @Autowired
+    Wago750_Repository wago750_repository;
+
+<span class="fc" id="L24">    public SaveDataService() {</span>
+<span class="fc" id="L25">    }</span>
+
+    public String[] saveData(Message m) {
+
+<span class="fc" id="L29">        Long timestamp_from_header = m.getHeaders().getTimestamp();</span>
+<span class="fc" id="L30">        System.out.println(&quot;topic: &quot; + (String) m.getHeaders().get(&quot;mqtt_receivedTopic&quot;)+ &quot; --payload: &quot; + m.getPayload() + &quot; --timestamp: &quot; + timestamp_from_header);</span>
+
+<span class="fc" id="L32">        String topic = (String) m.getHeaders().get(&quot;mqtt_receivedTopic&quot;);</span>
+<span class="fc" id="L33">        String[] topic_ID = new String[2];</span>
+
+<span class="fc bfc" id="L35" title="All 6 branches covered.">        switch(topic) {</span>
+            case &quot;Wago750/Status&quot;:
+<span class="fc" id="L37">                Wago750 wago750 = wago750_repository.save(new Wago750((String) m.getPayload(), m.getHeaders(), timestamp_from_header));</span>
+<span class="fc" id="L38">                topic_ID[0] = &quot;Wago750/Status&quot;; topic_ID[1] = wago750.id;</span>
+<span class="fc" id="L39">                return topic_ID;</span>
+            case &quot;S7_1500/Temperatur/Ist&quot;:
+<span class="fc" id="L41">                S7_1500_Ist s71500Ist =  s7_1500_ist_repository.save(new S7_1500_Ist((String) m.getPayload(), m.getHeaders(), timestamp_from_header));</span>
+<span class="fc" id="L42">                topic_ID[0] = &quot;S7_1500/Temperatur/Ist&quot;; topic_ID[1] = s71500Ist.id;</span>
+<span class="fc" id="L43">                return topic_ID;</span>
+            case&quot;S7_1500/Temperatur/Differenz&quot;:
+<span class="fc" id="L45">                S7_1500_Differenz s71500Differenz =  s7_1500_Differenz_repository.save(new S7_1500_Differenz((String) m.getPayload(), m.getHeaders(), timestamp_from_header));</span>
+<span class="fc" id="L46">                topic_ID[0] = &quot;S7_1500/Temperatur/Differenz&quot;; topic_ID[1] = s71500Differenz.id;</span>
+<span class="fc" id="L47">                return topic_ID;</span>
+            case &quot;S7_1500/Temperatur/Soll&quot;:
+<span class="fc" id="L49">                S7_1500_Soll s71500Soll = s7_1500_soll_repository.save(new S7_1500_Soll((String) m.getPayload(), m.getHeaders(), timestamp_from_header));</span>
+<span class="fc" id="L50">                topic_ID[0] = &quot;S7_1500/Temperatur/Soll&quot;; topic_ID[1] = s71500Soll.id;</span>
+<span class="fc" id="L51">                return topic_ID;</span>
+            case &quot;Random/Integer&quot;:
+                // code block
+<span class="fc" id="L54">                break;</span>
+            case null, default:
+                break;
+        }
+<span class="fc" id="L58">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

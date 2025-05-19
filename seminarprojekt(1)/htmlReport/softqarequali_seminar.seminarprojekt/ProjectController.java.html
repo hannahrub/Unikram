@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProjectController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SeminarprojektApplicationUnitTests Coverage Results</a> &gt; <a href="index.source.html" class="el_package">softqarequali_seminar.seminarprojekt</a> &gt; <span class="el_source">ProjectController.java</span></div><h1>ProjectController.java</h1><pre class="source lang-java linenums">package softqarequali_seminar.seminarprojekt;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+
+
+/**Diese klasse macht die normalen get requests aus aufgabe 3 und darunter.
+ * die funktionieren in @Controller annotated klassen nämlich nicht und müssen dehalb hier bleiben*/
+@RestController
+<span class="fc" id="L12">public class ProjectController {</span>
+
+    @Autowired
+    Wago750_Repository wago750_repository;
+    @Autowired
+    S7_1500_Ist_Repository s7_1500_ist_repository;
+    @Autowired
+    S7_1500_Soll_Repository s7_1500_soll_repository;
+    @Autowired
+    S7_1500_Differenz_Repository s7_1500_differenz_repository;
+
+
+    @GetMapping(&quot;/hello&quot;)
+        public String hello(){
+<span class="fc" id="L26">            return &quot;Guten Tag&quot;;</span>
+    }
+
+    @GetMapping(&quot;/Wago750&quot;)
+    public Wago750 wago(){
+<span class="nc" id="L31">       return  wago750_repository.findTopByOrderByTimestampDesc();</span>
+    }
+
+    @GetMapping(&quot;/S7_1500/ist/latest&quot;)
+    public S7_1500_Ist ist_latest(){
+<span class="nc" id="L36">        return  s7_1500_ist_repository.findTopByOrderByTimestampDesc();</span>
+    }
+
+    @GetMapping(&quot;/S7_1500/soll/latest&quot;)
+    public S7_1500_Soll soll_latest(){
+<span class="fc" id="L41">        return  s7_1500_soll_repository.findTopByOrderByTimestampDesc();</span>
+    }
+
+    @GetMapping(&quot;/S7_1500/differenz/latest&quot;)
+    public S7_1500_Differenz differenz_latest(){
+<span class="nc" id="L46">        return  s7_1500_differenz_repository.findTopByOrderByTimestampDesc();</span>
+    }
+
+    @GetMapping(&quot;/S7_1500/ist/all&quot;)
+    public List&lt;S7_1500_Ist&gt; ist_all(){
+<span class="nc" id="L51">        return  s7_1500_ist_repository.findAll();</span>
+    }
+
+    @GetMapping(&quot;/S7_1500/soll/all&quot;)
+    public List&lt;S7_1500_Soll&gt; soll_all(){
+<span class="nc" id="L56">        return  s7_1500_soll_repository.findAll();</span>
+    }
+
+    @GetMapping(&quot;/S7_1500/differenz/all&quot;)
+    public List&lt;S7_1500_Differenz&gt; differenz_all(){
+<span class="nc" id="L61">        return  s7_1500_differenz_repository.findAll();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

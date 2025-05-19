@@ -25,7 +25,6 @@ public class HTMLController {
     // die annotationen mappen spezifische http requests auf bestimmte controller methoden
     // !!!!! html templates gehören in src/main/resources/templates/ !!!!!
 
-
     /*Das hier emfängt das form was durch modus wahl abgesender wird*/
     @PostMapping("/homepage")
     public String buttonSubmit(@ModelAttribute FormEval wahl, Model model){
