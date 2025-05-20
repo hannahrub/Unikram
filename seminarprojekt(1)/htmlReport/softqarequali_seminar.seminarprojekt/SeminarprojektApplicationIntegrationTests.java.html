@@ -90,21 +90,15 @@ das Senden einer Nachricht an die Wago-SPS ausl¨ost.*/
 <span class="nc" id="L90">        MqttConfig.MyGateway gateway1 = Mockito.mock(MqttConfig.MyGateway.class);</span>
 
 <span class="nc" id="L92">        mockMvc.perform(post(&quot;/homepage&quot;)</span>
-<span class="nc" id="L93">                        .contentType(MediaType.APPLICATION_JSON)</span>
-<span class="nc" id="L94">                        .content(formevalJson))</span>
-<span class="nc" id="L95">                .andDo(print())</span>
-<span class="nc" id="L96">                .andExpect(status().isOk())</span>
-<span class="nc" id="L97">                .andExpect(view().name(&quot;displaydata&quot;));</span>
+<span class="nc" id="L93">                        .accept(MediaType.APPLICATION_JSON)</span>
+<span class="nc" id="L94">                        .contentType(MediaType.APPLICATION_JSON)</span>
+<span class="nc" id="L95">                        .content(formevalJson))</span>
+<span class="nc" id="L96">                .andDo(print())</span>
+<span class="nc" id="L97">                .andExpect(status().isOk())</span>
+<span class="nc" id="L98">                .andExpect(view().name(&quot;displaydata&quot;));</span>
 
         //MqttConfig.MyGateway gateway1 = Mockito.mock(MqttConfig.MyGateway.class);
-<span class="nc" id="L100">    }</span>
-
-    @Test
-    void shouldGet() throws Exception {
-<span class="nc" id="L104">        mockMvc.perform(get(&quot;/S7_1500/soll/latest&quot;))</span>
-<span class="nc" id="L105">                .andDo(print()).andExpect(status().isOk())</span>
-<span class="nc" id="L106">                .andExpect(content().contentType(&quot;application/json&quot;));</span>
-<span class="nc" id="L107">    }</span>
+<span class="nc" id="L101">    }</span>
 }
 
 

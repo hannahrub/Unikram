@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="de"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SeminarprojektApplicationUnitTests.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SeminarprojektApplicationUnitTests Coverage Results</a> &gt; <a href="index.source.html" class="el_package">softqarequali_seminar.seminarprojekt</a> &gt; <span class="el_source">SeminarprojektApplicationUnitTests.java</span></div><h1>SeminarprojektApplicationUnitTests.java</h1><pre class="source lang-java linenums">package softqarequali_seminar.seminarprojekt;
 
+import org.hamcrest.core.AnyOf;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -18,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-<span class="fc" id="L21">class SeminarprojektApplicationUnitTests {</span>
+<span class="fc" id="L24">class SeminarprojektApplicationUnitTests {</span>
 
 	@Autowired
 	 HTMLController controller;
@@ -41,63 +44,110 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 	// teste ob die Application überhaupt starten kann und der nötige context geladen wird
 	@Test
 	void contextLoads() {
-<span class="fc" id="L44">		assertThat(projectController).isNotNull();</span>
-<span class="fc" id="L45">		assertThat(gateway).isNotNull();</span>
-<span class="fc" id="L46">		assertThat(controller).isNotNull();</span>
+<span class="fc" id="L47">		assertThat(projectController).isNotNull();</span>
+<span class="fc" id="L48">		assertThat(gateway).isNotNull();</span>
+<span class="fc" id="L49">		assertThat(controller).isNotNull();</span>
 
-<span class="fc" id="L48">	}</span>
+<span class="fc" id="L51">	}</span>
 
 	// basic GET response testen
 	@Test
 	void shouldReceiveGetResponse() throws Exception {
-<span class="fc" id="L53">		assertThat(projectController.hello()).contains(&quot;Guten Tag&quot;);</span>
-<span class="fc" id="L54">	}</span>
+<span class="fc" id="L56">		assertThat(projectController.hello()).contains(&quot;Guten Tag&quot;);</span>
+<span class="fc" id="L57">	}</span>
 
 	@Test
 	void dbShouldSaveDataInRepo(){
-<span class="fc" id="L58">		S7_1500_Differenz data = new S7_1500_Differenz(&quot;payload&quot;, null, (long) 1);</span>
+<span class="fc" id="L61">		S7_1500_Differenz data = new S7_1500_Differenz(&quot;payload&quot;, null, (long) 1);</span>
 
-<span class="fc" id="L60">		S7_1500_Differenz savedData = s7_1500_differenz_repository.save(data);</span>
-<span class="fc" id="L61">		assertThat(savedData.payload).isEqualTo(&quot;payload&quot;);</span>
-<span class="fc" id="L62">	}</span>
+<span class="fc" id="L63">		S7_1500_Differenz savedData = s7_1500_differenz_repository.save(data);</span>
+<span class="fc" id="L64">		assertThat(savedData.payload).isEqualTo(&quot;payload&quot;);</span>
+<span class="fc" id="L65">	}</span>
 
 	@Test
 	void dbShouldFindLatestData(){
 		// bisherigen neusten timestamp finden
-<span class="fc" id="L67">		long newestTS = s7_1500_differenz_repository.findTopByOrderByTimestampDesc().timestamp;</span>
+<span class="fc" id="L70">		long newestTS = s7_1500_differenz_repository.findTopByOrderByTimestampDesc().timestamp;</span>
 
 		// was neueres Erzeugen
-<span class="fc" id="L70">		S7_1500_Differenz data = new S7_1500_Differenz(&quot;payload&quot;, null, newestTS +1);</span>
-<span class="fc" id="L71">		S7_1500_Differenz savedData = s7_1500_differenz_repository.save(data);</span>
+<span class="fc" id="L73">		S7_1500_Differenz data = new S7_1500_Differenz(&quot;payload&quot;, null, newestTS +100);</span>
+<span class="fc" id="L74">		S7_1500_Differenz savedData = s7_1500_differenz_repository.save(data);</span>
 
-<span class="fc" id="L73">		String newest_id = s7_1500_differenz_repository.findTopByOrderByTimestampDesc().id;</span>
+<span class="fc" id="L76">		String newest_id = s7_1500_differenz_repository.findTopByOrderByTimestampDesc().id;</span>
 
-<span class="fc" id="L75">		assertThat(newest_id).isEqualTo(savedData.id);</span>
-<span class="fc" id="L76">	}</span>
+<span class="fc" id="L78">		assertThat(newest_id).isEqualTo(savedData.id);</span>
+<span class="fc" id="L79">	}</span>
+
+	@Test
+	void shouldConvertWago750PayloadToBinaryArray(){
+<span class="fc" id="L83">		Wago750 w = new Wago750(&quot;[1]&quot;, null, (long)1);</span>
+
+<span class="fc" id="L85">		int[] a = {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};</span>
+
+<span class="fc" id="L87">		assertThat(w.binaryArray).isNotNull();</span>
+<span class="fc" id="L88">		assertArrayEquals(w.binaryArray, a);</span>
+<span class="fc" id="L89">	}</span>
 
 	@Test
 	void saveDataServiceShouldClassifyTopics(){
 
 		// Mock Message because making the real thing would be very annoying
-<span class="fc" id="L82">		Message m = Mockito.mock(Message.class);</span>
-<span class="fc" id="L83">		MessageHeaders mh = Mockito.mock(MessageHeaders.class);</span>
-<span class="fc" id="L84">		S7_1500_Ist_Repository s7_1500_ist_repository_mock = Mockito.mock(S7_1500_Ist_Repository.class);</span>
+<span class="fc" id="L95">		Message m1 = Mockito.mock(Message.class);</span>
+<span class="fc" id="L96">		MessageHeaders mh = Mockito.mock(MessageHeaders.class);</span>
 
-<span class="fc" id="L86">		Mockito.when(m.getHeaders()).thenReturn(mh);</span>
-<span class="fc" id="L87">		Mockito.when(m.getPayload()).thenReturn(&quot;some payload&quot;);</span>
-<span class="fc" id="L88">		Mockito.when(mh.getTimestamp()).thenReturn(((long) 1));</span>
-<span class="fc" id="L89">		Mockito.when(mh.get(&quot;mqtt_receivedTopic&quot;)).thenReturn(&quot;S7_1500/Temperatur/Ist&quot;);</span>
+<span class="fc" id="L98">		Message m2 = Mockito.mock(Message.class);</span>
+<span class="fc" id="L99">		MessageHeaders mh2 = Mockito.mock(MessageHeaders.class);</span>
 
-<span class="fc" id="L91">		assertThat(saveDataService.saveData(m)[0]).isEqualTo(&quot;S7_1500/Temperatur/Ist&quot;);</span>
+<span class="fc" id="L101">		Message m3 = Mockito.mock(Message.class);</span>
+<span class="fc" id="L102">		MessageHeaders mh3 = Mockito.mock(MessageHeaders.class);</span>
 
-<span class="fc" id="L93">	}</span>
+<span class="fc" id="L104">		Message m4 = Mockito.mock(Message.class);</span>
+<span class="fc" id="L105">		MessageHeaders mh4 = Mockito.mock(MessageHeaders.class);</span>
+
+<span class="fc" id="L107">		Message m5 = Mockito.mock(Message.class);</span>
+<span class="fc" id="L108">		MessageHeaders mh5 = Mockito.mock(MessageHeaders.class);</span>
+
+
+<span class="fc" id="L111">		Mockito.when(m1.getHeaders()).thenReturn(mh);</span>
+<span class="fc" id="L112">		Mockito.when(m1.getPayload()).thenReturn(&quot;some payload&quot;);</span>
+<span class="fc" id="L113">		Mockito.when(mh.getTimestamp()).thenReturn(((long) 1));</span>
+<span class="fc" id="L114">		Mockito.when(mh.get(&quot;mqtt_receivedTopic&quot;)).thenReturn(&quot;S7_1500/Temperatur/Ist&quot;);</span>
+
+<span class="fc" id="L116">		Mockito.when(m2.getHeaders()).thenReturn(mh2);</span>
+<span class="fc" id="L117">		Mockito.when(m2.getPayload()).thenReturn(&quot;some payload&quot;);</span>
+<span class="fc" id="L118">		Mockito.when(mh2.getTimestamp()).thenReturn(((long) 1));</span>
+<span class="fc" id="L119">		Mockito.when(mh2.get(&quot;mqtt_receivedTopic&quot;)).thenReturn(&quot;S7_1500/Temperatur/Soll&quot;);</span>
+
+<span class="fc" id="L121">		Mockito.when(m3.getHeaders()).thenReturn(mh3);</span>
+<span class="fc" id="L122">		Mockito.when(m3.getPayload()).thenReturn(&quot;some payload&quot;);</span>
+<span class="fc" id="L123">		Mockito.when(mh3.getTimestamp()).thenReturn(((long) 1));</span>
+<span class="fc" id="L124">		Mockito.when(mh3.get(&quot;mqtt_receivedTopic&quot;)).thenReturn(&quot;S7_1500/Temperatur/Differenz&quot;);</span>
+
+<span class="fc" id="L126">		Mockito.when(m4.getHeaders()).thenReturn(mh4);</span>
+<span class="fc" id="L127">		Mockito.when(m4.getPayload()).thenReturn(&quot;[1]&quot;); // braucht zahl</span>
+<span class="fc" id="L128">		Mockito.when(mh4.getTimestamp()).thenReturn(((long) 1));</span>
+<span class="fc" id="L129">		Mockito.when(mh4.get(&quot;mqtt_receivedTopic&quot;)).thenReturn(&quot;Wago750/Status&quot;);</span>
+
+<span class="fc" id="L131">		Mockito.when(m5.getHeaders()).thenReturn(mh5);</span>
+<span class="fc" id="L132">		Mockito.when(m5.getPayload()).thenReturn(&quot;1&quot;);</span>
+<span class="fc" id="L133">		Mockito.when(mh5.getTimestamp()).thenReturn(((long) 1));</span>
+<span class="fc" id="L134">		Mockito.when(mh5.get(&quot;mqtt_receivedTopic&quot;)).thenReturn(&quot;ungültigestopic&quot;);</span>
+
+<span class="fc" id="L136">		assertThat(saveDataService.saveData(m1)[0]).isEqualTo(&quot;S7_1500/Temperatur/Ist&quot;);</span>
+<span class="fc" id="L137">		assertThat(saveDataService.saveData(m2)[0]).isEqualTo(&quot;S7_1500/Temperatur/Soll&quot;);</span>
+<span class="fc" id="L138">		assertThat(saveDataService.saveData(m3)[0]).isEqualTo(&quot;S7_1500/Temperatur/Differenz&quot;);</span>
+<span class="fc" id="L139">		assertThat(saveDataService.saveData(m4)[0]).isEqualTo(&quot;Wago750/Status&quot;);</span>
+<span class="fc" id="L140">		assertThat(saveDataService.saveData(m5)).isNull();</span>
+
+
+<span class="fc" id="L143">	}</span>
 
 	@Test
 	void shouldGetJSON() throws Exception {
-<span class="fc" id="L97">		mockMvc.perform(get(&quot;/S7_1500/soll/latest&quot;))</span>
-<span class="fc" id="L98">				.andDo(print()).andExpect(status().isOk())</span>
-<span class="fc" id="L99">				.andExpect(content().contentType(&quot;application/json&quot;));</span>
-<span class="fc" id="L100">	}</span>
+<span class="fc" id="L147">		mockMvc.perform(get(&quot;/S7_1500/soll/latest&quot;))</span>
+<span class="fc" id="L148">				.andDo(print()).andExpect(status().isOk())</span>
+<span class="fc" id="L149">				.andExpect(content().contentType(&quot;application/json&quot;));</span>
+<span class="fc" id="L150">	}</span>
 
 
 }
